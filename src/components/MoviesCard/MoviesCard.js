@@ -3,7 +3,7 @@ import './MoviesCard.css'
 function MoviesCard({ card, isSavedMovies }) {
     return (
         <div className='movies-card'>
-            <img className='movies-card__image' src={card.link}></img>
+            <img className='movies-card__image' src={card.link} alt="карточка фильма"></img>
 
             <div className='movies-card__container'>
                 <p className='movies-card__title'>{card.name}</p>

@@ -21,7 +21,7 @@ function Register() {
                             maxLength="30"
                             required
                             />
-                        <span className='register-form__input-error'></span>
+                        <p className='register-form__input-error'></p>
                     </div>
 
                     <div className='register-form__input-container'>
@@ -35,7 +35,7 @@ function Register() {
                             maxLength="30"
                             required
                             />
-                            <span className='register-form__input-error'></span>
+                            <p className='register-form__input-error'></p>
                     </div>
 
                     <div className='register-form__input-container'>
@@ -49,7 +49,7 @@ function Register() {
                             maxLength="30"
                             required
                             />
-                        <span className='register-form__input-error'></span>
+                        <p className='register-form__input-error'><span>Что-то пошло не так...</span></p>
                     </div>
 
                     <button className='register-form__submit-btn' type='submit'>Зарегистрироваться</button>

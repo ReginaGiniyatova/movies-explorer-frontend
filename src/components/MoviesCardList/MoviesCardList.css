@@ -17,6 +17,7 @@
 }
 
 .movies__more-btn {
+  cursor: pointer;
   margin: 60px auto 0 auto;
   min-width: 320px;
   height: 36px;
@@ -29,6 +30,10 @@
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+}
+
+.movies__more-btn:hover {
+  opacity: .8;
 }
 
 .movies__more-btn_hidden {

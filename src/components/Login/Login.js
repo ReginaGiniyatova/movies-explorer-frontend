@@ -21,7 +21,7 @@ function Login() {
                             maxLength="30"
                             required
                             />
-                            <span className='login-form__input-error'></span>
+                            <p className='login-form__input-error'></p>
                     </div>
 
                     <div className='login-form__input-container'>
@@ -35,7 +35,7 @@ function Login() {
                             maxLength="30"
                             required
                             />
-                        <span className='login-form__input-error'></span>
+                        <p className='login-form__input-error'></p>
                     </div>
 
                     <button className='login-form__submit-btn' type='submit'>Войти</button>

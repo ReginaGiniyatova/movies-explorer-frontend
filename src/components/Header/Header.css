@@ -52,6 +52,22 @@
     text-decoration: none;
 }
 
+.header__nav-link:hover {
+    opacity: .7;
+}
+
+.header__text:hover {
+    opacity: .7;
+}
+
+.header__btn:hover {
+    opacity: .8;
+}
+
+.header__logo:hover {
+    opacity: .7;
+}
+
 .header__nav-link_active {
     font-weight: 500;
 }
@@ -81,6 +97,7 @@
 }
 
 .header__btn {
+    cursor: pointer;
     text-decoration: none;
     margin: 0;
     padding: 0;
@@ -119,6 +136,18 @@
     .header {
         padding-left: 14px;
         padding-right: 14px;
+    }
+
+    .header__text {
+        font-size: 10px;
+        line-height: 16px;
+    }
+
+    .header__btn {
+        width: 54px;
+        height: 26px;
+        font-size: 10px;
+        line-height: 26px;
     }
 
     .header__nav {

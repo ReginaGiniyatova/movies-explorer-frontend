@@ -130,11 +130,11 @@ function MoviesCardList({ isSavedMovies }) {
       >
         Ничего не найдено
       </h2>
-      <div className="movies-list__grid">
+      <ul className="movies-list__grid">
         {visibleCards.map((card, id) => (
           <MoviesCard card={card} key={id} isSavedMovies={isSavedMovies}/>
         ))}
-      </div>
+      </ul>
       <button
         className={`movies__more-btn ${ !isMoreButtonVisible && 'movies__more-btn_hidden' }`}
         type="button"

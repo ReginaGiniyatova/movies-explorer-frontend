@@ -87,6 +87,10 @@
     text-decoration: none;
 }
 
+.profile__link:hover {
+    opacity: .7;
+}
+
 .profile__link_color-accent {
     color: #FF4062;
 }

@@ -36,6 +36,7 @@
 }
 
 .search-form__btn {
+    cursor: pointer;
     margin: 0;
     padding: 0;
     margin-left: 22px;
@@ -49,6 +50,10 @@
     background-color: black;
     padding: 8px 10.35px;
     border: none;
+}
+
+.search-form__btn:hover {
+    opacity: .8;
 }
 
 .search-form__input {

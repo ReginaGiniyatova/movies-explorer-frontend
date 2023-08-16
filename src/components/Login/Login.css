@@ -21,6 +21,10 @@
     background: url('../../images/logo.svg');
 }
 
+.login__logo:hover {
+    opacity: .8;
+}
+
 .login__greeting {
     margin-top: 40px;
     padding: 0;
@@ -80,6 +84,7 @@
 }
 
 .login-form__submit-btn {
+    cursor: pointer;
     padding: 13px 0 15px 0;
     margin-top: 179px;
     width: 100%;
@@ -92,6 +97,10 @@
     font-style: normal;
     font-weight: 500;
     line-height: normal;
+}
+
+.login-form__submit-btn:hover {
+    opacity: .8;
 }
 
 .login__links {
@@ -112,6 +121,10 @@
     font-weight: 400;
     line-height: normal;
     text-decoration: none;
+}
+
+.login__link:hover {
+    opacity: .7;
 }
 
 .login__link_inactive {

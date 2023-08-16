@@ -16,8 +16,8 @@ function AboutProject() {
                 </div>
             </div>
             <div className="about-project__progressbar">
-                <p className="about-project__progressbar-black">1 week</p>
-                <p className="about-project__progressbar-gray">4 week</p>
+                <p className="about-project__progressbar-black">1 неделя</p>
+                <p className="about-project__progressbar-gray">4 недели</p>
                 <p className="about-project__progressbar-text">Back-end</p>
                 <p className="about-project__progressbar-text">Front-end</p>
             </div>

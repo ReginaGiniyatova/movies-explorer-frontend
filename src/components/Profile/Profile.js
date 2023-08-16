@@ -1,5 +1,6 @@
 import Header from "../Header/Header";
 import './Profile.css';
+import { NavLink } from 'react-router-dom'; 
 
 function Profile() {
     return (
@@ -22,8 +23,8 @@ function Profile() {
                     </div>
 
                     <nav className="profile__links">
-                        <a className="profile__link" href="#">Редактировать</a>
-                        <a className="profile__link profile__link_color-accent" href="#">Выйти из аккаунта</a>
+                        <NavLink to="/" className="profile__link">Редактировать</NavLink>
+                        <NavLink to="/" className="profile__link profile__link_color-accent">Выйти из аккаунта</NavLink>
                     </nav>
                 </div>
 
