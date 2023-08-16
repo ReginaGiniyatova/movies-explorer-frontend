@@ -18,6 +18,7 @@
     align-items: center;
     justify-content: flex-start;
     flex-grow: 1;
+    column-gap: 20px;
 }
 
 .search-form__info {
@@ -50,6 +51,7 @@
     background-color: black;
     padding: 8px 10.35px;
     border: none;
+    min-width: 59px;
 }
 
 .search-form__btn:hover {
@@ -70,6 +72,11 @@
 @media screen and (min-width: 751px) and (max-width: 768px) {
     .search-form {
         margin: 80px 30px 109px 30px;
+        padding-right: 20px;
+    }
+
+    .search-form__divider {
+        margin: 16px 19px 16px 19px;
     }
 }
 
@@ -103,6 +110,7 @@
     }
 
     .search-form__btn {
+        margin: 0;
         margin-right: 19px;
         color: #FFF;
         text-align: center;

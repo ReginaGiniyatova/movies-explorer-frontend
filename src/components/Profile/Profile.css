@@ -27,7 +27,7 @@
 .profile__info-container {
     margin: 0;
     padding: 0;
-    margin-top: 153px;
+    margin-top: 123px;
     margin-bottom: 220px;
     display: flex;
     flex-direction: column;
@@ -109,13 +109,18 @@
 @media screen and (max-width: 534px) {
     .profile {
         padding: 70px 30px;
-        height: 706px;
     }
     
     .profile__info-container {
         flex-grow: 1;
         margin-top: 80px;
-        margin-bottom: 80px;
+        margin-bottom: 379px;
     }
+
+    .profile__link {
+        font-size: 12px;
+    }
+
+
     
 }

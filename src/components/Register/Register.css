@@ -2,7 +2,7 @@
     margin: 0;
     display: flex;
     padding: 70px 0;
-    height: 700px;
+    min-height: 700px;
     justify-content: center;
 }
 
@@ -154,14 +154,19 @@
 
     .register__greeting {
         align-self: center;
+        margin-top: 50px;
     }
 
     .register-form {
-        margin-top: 80px;
+        margin-top: 70px;
         margin-bottom: 14px;
     }
 
     .register-form__submit-btn {
         margin-top: 157px;
+    }
+
+    .register__link {
+        font-size: 12px;
     }
 }

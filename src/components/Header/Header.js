@@ -45,34 +45,40 @@ function Header({ loggedIn }) {
         </nav>
       )}
 
-      <nav className={`header__menu ${loggedIn && 'header__menu_collapse'}`}>
-        {!loggedIn && (
-          <>
-            <NavLink to="/signup" className="header__text">
-              Регистрация
-            </NavLink>
-            <NavLink to="/signin" className="header__btn">
-              Войти
-            </NavLink>
-          </>
-        )}
+      {!loggedIn && (
+        <nav className={`header__menu ${loggedIn && "header__menu_collapse"}`}>
+          <NavLink to="/signup" className="header__text">
+            Регистрация
+          </NavLink>
+          <NavLink to="/signin" className="header__btn">
+            Войти
+          </NavLink>
+        </nav>
+      )}
 
-        {loggedIn && (
-          <>
-            <NavLink
-              to="/profile"
-              className={({ isActive }) =>
-                isActive
-                  ? "header__nav-link header__nav-link_active"
-                  : "header__nav-link"
-              }
-            >
-              Аккаунт
-            </NavLink>
-            <img className="header__account-icon" src={accountIcon}></img>
-          </>
-        )}
-      </nav>
+      {loggedIn && (
+        <nav
+          className={`header__account-container ${
+            loggedIn && "header__menu_collapse"
+          }`}
+        >
+          <NavLink
+            to="/profile"
+            className={({ isActive }) =>
+              isActive
+                ? "header__account-link header__nav-link_active"
+                : "header__account-link"
+            }
+          >
+            Аккаунт
+          </NavLink>
+          <img
+            className="header__account-icon"
+            src={accountIcon}
+            alt="profile logo"
+          ></img>
+        </nav>
+      )}
 
       {loggedIn && (
         <img
