@@ -1,0 +1,121 @@
+.portfolio {
+    padding-left: 70px;
+    padding-right: 70px;
+    margin-bottom: 194px;
+}
+
+.portfolio__title {
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+    color: #A0A0A0;
+    width: 250px;
+    margin: 0;
+    padding: 0;
+}
+
+.portfolio__links {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+}
+
+.portfolio__link {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    text-decoration: none;
+}
+
+.portfolio__link:hover {
+    opacity: .7;
+}
+
+.portfolio__name {
+    margin: 0;
+    padding: 0;
+    color: #000;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 50px;
+    letter-spacing: -1.2px;
+}
+
+.portfolio__pic {
+    margin: 0;
+    padding: 0;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 60px;
+    color: black;
+}
+
+.portfolio__pic {
+    opacity: .7;
+}
+
+.portfolio__divider {
+    margin-top: 9px;
+    margin-bottom: 20px;
+    padding: 0;
+    max-width: 100vw;
+    height: 1px;
+    background-color: #E8E8E8;
+}
+
+@media screen and (max-width: 768px) and (min-width: 535px) {
+    .portfolio {
+        padding-left: 50px;
+        padding-right: 50px;
+        margin-bottom: 160px;
+    }
+
+    .portfolio__pic {
+        font-size: 28px;
+    }
+
+    .portfolio__name {
+        font-size: 28px;
+    }
+}
+
+@media screen and (max-width: 534px) {
+    .portfolio {
+        padding-left: 14px;
+        padding-right: 14px;
+        padding-bottom: 40px;
+        margin-bottom: 109px;
+    }
+
+    .portfolio__title {
+        font-size: 14px;
+        line-height: 20px;
+    }
+
+    .portfolio__name { 
+        font-size: 18px;
+        line-height: 28px; 
+        letter-spacing: -0.72px;
+    }
+
+    .portfolio__pic {
+        font-size: 18px;
+        line-height: 28px; 
+        letter-spacing: -0.72px;
+    }
+
+    .portfolio__links {
+        margin-top: 40px;
+    }
+
+    .portfolio__divider {
+        margin-top: 19px;
+    }
+}
