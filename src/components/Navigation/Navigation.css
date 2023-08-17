@@ -18,7 +18,7 @@
 .navigation__container {
     margin: 0;
     padding: 0;
-    width: 70%;
+    width: 520px;
     height: 100%;
     background-color: white;
     display: flex;
@@ -31,6 +31,11 @@
     align-self: flex-end;
     width: 30px;
     height: 30px;
+    cursor: pointer;
+}
+
+.navigation__close:hover {
+    opacity: .8;
 }
 
 .navigation__menu {
@@ -53,6 +58,11 @@
     font-style: normal;
     font-weight: 500;
     line-height: normal;
+    cursor: pointer;
+}
+
+.navigation__menu-link:hover {
+    opacity: .7;
 }
 
 .navigation-account__container {
@@ -73,6 +83,11 @@
     font-weight: 500;
     line-height: 28px;
     text-decoration: none;
+    cursor: pointer;
+}
+
+.navigation-account__text:hover {
+    opacity: .7;
 }
 
 .navigation__menu-link_active {
