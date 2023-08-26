@@ -1,7 +1,19 @@
 import { NavLink } from 'react-router-dom';
 import './Register.css';
+import { useForm } from '../../hooks/useForm';
 
-function Register() {
+function Register({ onSubmit }) {
+
+    const { values, handleChange, setValues, isValid, errors } = useForm({});
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        onSubmit({
+            email: values['email'],
+            password: values['password'],
+            name: values['name'],
+        });
+    }
+
     return (
         <section className='register'>
             <div className='register__container'>
@@ -9,7 +21,7 @@ function Register() {
 
                 <h2 className='register__greeting'>Добро пожаловать!</h2>
 
-                <form className='register-form'>
+                <form className='register-form' onSubmit={handleSubmit}>
                     <div className='register-form__input-container'>
                         <p className='register-form__label'>Имя</p>
                         <input
@@ -17,11 +29,13 @@ function Register() {
                             className='register-form__input'
                             type='text'
                             name='name'
+                            value={values['name'] || ''}
+                            onChange={handleChange}
                             minLength="2"
                             maxLength="30"
                             required
                             />
-                        <p className='register-form__input-error'></p>
+                        <p className='register-form__input-error'>{errors['name']}</p>
                     </div>
 
                     <div className='register-form__input-container'>
@@ -29,13 +43,15 @@ function Register() {
                         <input
                             id="register-input"
                             className='register-form__input'
-                            type='text'
+                            type='email'
                             name='email'
+                            value={values['email'] || ''}
+                            onChange={handleChange}
                             minLength="2"
                             maxLength="30"
                             required
                             />
-                            <p className='register-form__input-error'></p>
+                            <p className='register-form__input-error'>{errors['email']}</p>
                     </div>
 
                     <div className='register-form__input-container'>
@@ -45,14 +61,16 @@ function Register() {
                             className='register-form__input'
                             type='password'
                             name='password'
+                            value={values['password'] || ''}
+                            onChange={handleChange}
                             minLength="2"
                             maxLength="30"
                             required
                             />
-                        <p className='register-form__input-error'><span>Что-то пошло не так...</span></p>
+                        <p className='register-form__input-error'>{errors['password']}</p>
                     </div>
 
-                    <button className='register-form__submit-btn' type='submit'>Зарегистрироваться</button>
+                    <button className={`register-form__submit-btn ${isValid || 'register-form__submit-btn_disabled' }`} type='submit'>Зарегистрироваться</button>
                 </form>
 
                 <nav className='register__links'>
