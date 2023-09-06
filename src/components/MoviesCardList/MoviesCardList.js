@@ -1,125 +1,54 @@
 import MoviesCard from "../MoviesCard/MoviesCard";
 import { useState, useEffect } from "react";
 import "./MoviesCardList.css";
+import Preloader from "../Preloader/Preloader";
 
-function MoviesCardList({ isSavedMovies }) {
-  let cards = [
-    {
-      name: "Animal",
-      duration: "1ч42м",
-      link: "https://s.mediasalt.ru/images/243/243729/original.jpg",
-    },
-    {
-      name: "Animal",
-      duration: "1h 42m",
-      link: "https://s.mediasalt.ru/images/243/243729/original.jpg",
-    },
-    {
-      name: "Animal",
-      duration: "1h 42m",
-      link: "https://s.mediasalt.ru/images/243/243729/original.jpg",
-    },
-    {
-      name: "Animal",
-      duration: "1h 42m",
-      link: "https://s.mediasalt.ru/images/243/243729/original.jpg",
-    },
-    {
-      name: "Animal",
-      duration: "1h 42m",
-      link: "https://s.mediasalt.ru/images/243/243729/original.jpg",
-    },
-    {
-      name: "Animal",
-      duration: "1h 42m",
-      link: "https://s.mediasalt.ru/images/243/243729/original.jpg",
-    },
-    {
-      name: "Animal",
-      duration: "1h 42m",
-      link: "https://s.mediasalt.ru/images/243/243729/original.jpg",
-    },
-    {
-      name: "Animal",
-      duration: "1h 42m",
-      link: "https://s.mediasalt.ru/images/243/243729/original.jpg",
-    },
-    {
-      name: "Animal",
-      duration: "1h 42m",
-      link: "https://s.mediasalt.ru/images/243/243729/original.jpg",
-    },
-    {
-      name: "Animal",
-      duration: "1h 42m",
-      link: "https://s.mediasalt.ru/images/243/243729/original.jpg",
-    },
-    {
-      name: "Animal",
-      duration: "1h 42m",
-      link: "https://s.mediasalt.ru/images/243/243729/original.jpg",
-    },
-    {
-      name: "Animal",
-      duration: "1h 42m",
-      link: "https://s.mediasalt.ru/images/243/243729/original.jpg",
-    },
-    {
-      name: "Animal",
-      duration: "1h 42m",
-      link: "https://s.mediasalt.ru/images/243/243729/original.jpg",
-    },
-    {
-      name: "Animal",
-      duration: "1h 42m",
-      link: "https://s.mediasalt.ru/images/243/243729/original.jpg",
-    },
-    {
-      name: "Animal",
-      duration: "1h 42m",
-      link: "https://s.mediasalt.ru/images/243/243729/original.jpg",
-    },
-    {
-      name: "Animal",
-      duration: "1h 42m",
-      link: "https://s.mediasalt.ru/images/243/243729/original.jpg",
-    },
-    {
-      name: "Animal",
-      duration: "1h 42m",
-      link: "https://s.mediasalt.ru/images/243/243729/original.jpg",
-    },
-    {
-      name: "Animal",
-      duration: "1h 42m",
-      link: "https://s.mediasalt.ru/images/243/243729/original.jpg",
-    },
-    {
-      name: "Animal",
-      duration: "1h 42m",
-      link: "https://s.mediasalt.ru/images/243/243729/original.jpg",
-    },
-    {
-      name: "Animal",
-      duration: "1h 42m",
-      link: "https://s.mediasalt.ru/images/243/243729/original.jpg",
-    },
-  ];
-  const visibleCardsCount = 16;
-  const [visibleCards, setVisibleCards] = useState([]);
+function MoviesCardList({
+  isSavedMovies,
+  movies,
+  isLoading,
+  onLike,
+  likedMovies,
+  searchQuery,
+  onDislike
+}) {
+  const [renderedMovies, setRenderedMovies] = useState([]);
   const [isEmptyResults, setEmptyResults] = useState(false);
-  const [isMoreButtonVisible, setMoreButtonVisible] = useState(true);
+  const [isMoreButtonVisible, setMoreButtonVisible] = useState(!isSavedMovies);
 
   useEffect(() => {
-    setVisibleCards(cards.slice(0, visibleCards.length + visibleCardsCount));
-  }, []);
+    if (movies.length === 0 && searchQuery.length > 0) setEmptyResults(true);
+    else setEmptyResults(false);
+
+    setRenderedMovies(!isSavedMovies ? movies.slice(0, calculateVisibleCount()) : movies);
+  }, [movies]);
+
+  useEffect(() => {
+    setMoreButtonVisible(!isSavedMovies ? renderedMovies.length < movies.length : false);
+  }, [renderedMovies]);
 
   let onMoreButtonClick = () => {
-    setEmptyResults(false);
-    setVisibleCards(cards.slice(0, visibleCards.length + visibleCardsCount));
-    console.log(`${visibleCards.length} ${cards.length} `);
-    setMoreButtonVisible(visibleCards.length < cards.length);
+    setRenderedMovies(movies.slice(0, renderedMovies.length + getMoviesCount()));
   };
+
+  function calculateVisibleCount() {
+    const width = window.innerWidth;
+    const TABLET_VIEW_WIDTH = 768;
+    const MOBILE_VIEW_WIDTH = 535;
+
+    if (width > TABLET_VIEW_WIDTH) return 16;
+    if (width <= TABLET_VIEW_WIDTH && width >= MOBILE_VIEW_WIDTH) return 8;
+
+    return 5;
+  }
+
+  function getMoviesCount() {
+    const width = window.innerWidth;
+    const TABLET_VIEW_WIDTH = 768;
+
+    if (width > TABLET_VIEW_WIDTH) return 4;
+    return 2;
+  }
 
   return (
     <section className="movies-list">
@@ -128,9 +57,19 @@ function MoviesCardList({ isSavedMovies }) {
           Ничего не найдено
         </h2>
       )}
+      {isLoading && <Preloader />}
       <ul className="movies-list__grid">
-        {visibleCards.map((card, id) => (
-          <MoviesCard card={card} key={id} isSavedMovies={isSavedMovies} />
+        {renderedMovies.map((card, id) => (
+          <MoviesCard
+            movie={card}
+            key={id}
+            isSavedMovies={isSavedMovies}
+            onLike={onLike}
+            onDislike={onDislike}
+            isLiked={
+              isSavedMovies ? true : likedMovies.some((id) => card.id === id)
+            }
+          />
         ))}
       </ul>
       <button

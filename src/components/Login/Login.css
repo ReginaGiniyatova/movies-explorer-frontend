@@ -74,6 +74,23 @@
     line-height: normal;
 }
 
+.login-form__submit-container {
+    padding: 0;
+    margin-top: 169px;
+}
+
+.login-form__error {
+    margin: 0 0 10px 0;
+    padding: 0;
+    max-width: 396px;
+    color: #FF4062;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-align: center;
+}
+
 .login-form__input-error {
     margin: 10px 0 0 0;
     padding: 0;
@@ -88,7 +105,7 @@
 .login-form__submit-btn {
     cursor: pointer;
     padding: 13px 0 15px 0;
-    margin-top: 169px;
+    margin: 0;
     width: 100%;
     color: #FFF;
     border-radius: 3px;
@@ -170,8 +187,11 @@
     }
 
     .login-form__submit-btn {
-        margin-top: 258px;
         font-size: 12px;
+    }
+
+    .login-form__submit-container {
+        margin-top: 258px;
     }
 
     .login__link {

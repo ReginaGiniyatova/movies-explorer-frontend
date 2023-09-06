@@ -1,8 +1,9 @@
+import { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import './Login.css';
 import { useForm } from '../../hooks/useForm';
 
-function Login({ onSubmit }) {
+function Login({ onSubmit, errorMessage, resetErrors }) {
 
     const { values, handleChange, setValues, isValid, errors } = useForm({});
     const handleSubmit = (e) => {
@@ -12,6 +13,12 @@ function Login({ onSubmit }) {
             password: values['password'],
         });
     }
+
+    useEffect(() => {
+        return resetErrors;
+    }, [])
+
+
     return (
         <section className='login'>
             <div className='login__container'>
@@ -23,9 +30,11 @@ function Login({ onSubmit }) {
                     <div className='login-form__input-container'>
                         <p className='login-form__label'>E-mail</p>
                         <input
-                            id="login-input"
+                            id="login-input__email"
+                            autoComplete='email'
                             className='login-form__input'
-                            type='email'
+                            type="email"
+                            pattern="^([A-Za-z0-9_\-\.])+@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$"
                             name='email'
                             value={values['email'] || ''}
                             onChange={handleChange}
@@ -39,7 +48,8 @@ function Login({ onSubmit }) {
                     <div className='login-form__input-container'>
                         <p className='login-form__label'>Пароль</p>
                         <input
-                            id="login-input"
+                            id="login-input__password"
+                            autoComplete='current-password'
                             className='login-form__input'
                             type='password'
                             name='password'
@@ -52,7 +62,10 @@ function Login({ onSubmit }) {
                         <p className='login-form__input-error'>{errors['password']}</p>
                     </div>
 
-                    <button className={`login-form__submit-btn ${isValid || 'login-form__submit-btn_disabled' }`} type='submit'>Войти</button>
+                    <div className="login-form__submit-container">
+                        <p className="login-form__error">{errorMessage || ""}</p>
+                        <button className={`login-form__submit-btn ${isValid || 'login-form__submit-btn_disabled' }`} type='submit'>Войти</button>
+                    </div>
                 </form>
 
                 <nav className='login__links'>

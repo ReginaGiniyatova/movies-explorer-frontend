@@ -1,8 +1,8 @@
 import { useState } from "react";
 
-export function useForm(inputValues = {}) {
+export function useForm(inputValues = {}, validDefaultValue = false) {
   const [values, setValues] = useState(inputValues);
-  const [isValid, setIsValid] = useState(false);
+  const [isValid, setIsValid] = useState(validDefaultValue);
   const [errors, setErrors] = useState({});
 
   const handleChange = (event) => {
