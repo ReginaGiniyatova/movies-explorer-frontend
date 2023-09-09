@@ -16,8 +16,11 @@ import Profile from "../Profile/Profile";
 import PageNotFound from "../PageNotFound/PageNotFound";
 import { apiClient } from "../../utils/MainApi";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
-import { apiMovies } from "../../utils/MoviesApi";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
+import {
+  PROFILE_UPDATE_SUCCESS_MESSAGE,
+  PROFILE_UPDATE_FAILED_MESSAGE
+} from "../../utils/Constants";
 
 function App() {
   const navigate = useNavigate();
@@ -25,27 +28,24 @@ function App() {
   const path = location.pathname;
   const [currentUser, setCurrentUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
-  const [movies, setMovies] = useState([]);
   const [likedMovies, setLikedMovies] = useState([]);
   const [savedMovies, setSavedMovies] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
+  const [notification, setNotification] = useState(null);
 
   useEffect(() => {
     if (loggedIn) {
       resetErrors();
       Promise.all([
         apiClient.getUserInfo(),
-        apiMovies.getMovies(),
         apiClient.getSavedMovies(),
       ])
-        .then(([user, movies, savedMovies]) => {
+        .then(([user, savedMovies]) => {
           setCurrentUser(user);
-          setMovies(movies);
           setSavedMovies(transformSavedMovies(savedMovies));
           setLikedMovies(savedMovies.map((movie) => movie.movieId));
         })
         .catch(error => {
-          setErrorMessage('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз');
           console.error(error);
         });
     }
@@ -104,8 +104,20 @@ function App() {
       .updateUserInfo(userInfo)
       .then((user) => {
         setCurrentUser(user);
+        setNotification({
+          message: PROFILE_UPDATE_SUCCESS_MESSAGE,
+          isError: false,
+        });
+        setTimeout(resetNotification, 5000);
       })
-      .catch(console.error);
+      .catch((error) => {
+        setNotification({
+          message: PROFILE_UPDATE_FAILED_MESSAGE,
+          isError: true,
+        });
+        setTimeout(resetNotification, 5000);
+        console.error(error)
+      });
   }
 
   function logout() {
@@ -116,6 +128,10 @@ function App() {
     setLoggedIn(false);
     setCurrentUser({});
     navigate("/", { replace: true });
+  }
+
+  function resetNotification() {
+    setNotification(null);
   }
 
   function handleLike(movie) {
@@ -207,7 +223,6 @@ function App() {
             element={
               <ProtectedRoute
                 loggedIn={loggedIn}
-                movies={movies}
                 element={Movies}
                 onLike={handleLike}
                 likedMovies={likedMovies}
@@ -236,6 +251,7 @@ function App() {
                 loggedIn={loggedIn}
                 onEdit={editProfileInfo}
                 onLogout={logout}
+                notification={notification}
               />
             }
           />

@@ -2,6 +2,15 @@ import MoviesCard from "../MoviesCard/MoviesCard";
 import { useState, useEffect } from "react";
 import "./MoviesCardList.css";
 import Preloader from "../Preloader/Preloader";
+import {
+  TABLET_VIEW_WIDTH,
+    MOBILE_VIEW_WIDTH,
+    DESKTOP_VIEW_COUNT,
+    MOBILE_VIEW_COUNT,
+    TABLET_VIEW_COUNT,
+    DESCTOP_FILMS_COUNT,
+    OTHER_FILMS_COUNT
+} from "../../utils/Constants";
 
 function MoviesCardList({
   isSavedMovies,
@@ -33,21 +42,18 @@ function MoviesCardList({
 
   function calculateVisibleCount() {
     const width = window.innerWidth;
-    const TABLET_VIEW_WIDTH = 768;
-    const MOBILE_VIEW_WIDTH = 535;
+    
+    if (width > TABLET_VIEW_WIDTH) return DESKTOP_VIEW_COUNT;
+    if (width <= TABLET_VIEW_WIDTH && width >= MOBILE_VIEW_WIDTH) return TABLET_VIEW_COUNT;
 
-    if (width > TABLET_VIEW_WIDTH) return 16;
-    if (width <= TABLET_VIEW_WIDTH && width >= MOBILE_VIEW_WIDTH) return 8;
-
-    return 5;
+    return MOBILE_VIEW_COUNT;
   }
 
   function getMoviesCount() {
     const width = window.innerWidth;
-    const TABLET_VIEW_WIDTH = 768;
 
-    if (width > TABLET_VIEW_WIDTH) return 4;
-    return 2;
+    if (width > TABLET_VIEW_WIDTH) return DESCTOP_FILMS_COUNT;
+    return OTHER_FILMS_COUNT;
   }
 
   return (
@@ -62,7 +68,7 @@ function MoviesCardList({
         {renderedMovies.map((card, id) => (
           <MoviesCard
             movie={card}
-            key={id}
+            key={card.id}
             isSavedMovies={isSavedMovies}
             onLike={onLike}
             onDislike={onDislike}

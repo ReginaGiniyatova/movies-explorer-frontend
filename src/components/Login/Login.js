@@ -1,13 +1,16 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import './Login.css';
 import { useForm } from '../../hooks/useForm';
 
 function Login({ onSubmit, errorMessage, resetErrors }) {
 
+    const [isFormDisabled, setIsFormDisabled] = useState(false);
     const { values, handleChange, setValues, isValid, errors } = useForm({});
     const handleSubmit = (e) => {
         e.preventDefault();
+        setIsFormDisabled(true);
+
         onSubmit({
             email: values['email'],
             password: values['password'],
@@ -17,6 +20,10 @@ function Login({ onSubmit, errorMessage, resetErrors }) {
     useEffect(() => {
         return resetErrors;
     }, [])
+
+    useEffect(() => {
+        setIsFormDisabled(false);
+      }, [errorMessage]);
 
 
     return (
@@ -40,6 +47,7 @@ function Login({ onSubmit, errorMessage, resetErrors }) {
                             onChange={handleChange}
                             minLength="2"
                             maxLength="30"
+                            disabled={isFormDisabled}
                             required
                             />
                             <p className='login-form__input-error'>{errors['email']}</p>
@@ -55,6 +63,7 @@ function Login({ onSubmit, errorMessage, resetErrors }) {
                             name='password'
                             value={values['password'] || ''}
                             onChange={handleChange}
+                            disabled={isFormDisabled}
                             minLength="2"
                             maxLength="30"
                             required
@@ -64,7 +73,7 @@ function Login({ onSubmit, errorMessage, resetErrors }) {
 
                     <div className="login-form__submit-container">
                         <p className="login-form__error">{errorMessage || ""}</p>
-                        <button className={`login-form__submit-btn ${isValid || 'login-form__submit-btn_disabled' }`} type='submit'>Войти</button>
+                        <button className={`login-form__submit-btn ${(isValid && !isFormDisabled) || 'login-form__submit-btn_disabled' }`} type='submit' disabled={isFormDisabled}>Войти</button>
                     </div>
                 </form>
 

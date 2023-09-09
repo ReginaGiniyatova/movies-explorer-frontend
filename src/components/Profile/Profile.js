@@ -3,15 +3,15 @@ import Header from "../Header/Header";
 import "./Profile.css";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import { useForm } from "../../hooks/useForm";
+import Notification from "../Notification/Notification";
 
-function Profile({ onEdit, onLogout }) {
+function Profile({ onEdit, onLogout, notification }) {
   const currentUser = useContext(CurrentUserContext);
-  const { values, handleChange, setValues, isValid, errors } = useForm(
-    {},
-    true
-  );
+  const { values, handleChange, setValues, isValid, errors } = useForm({}, true);
   const [isEditEnable, setEditEnable] = useState(false);
   const [isInEditMode, setIsInEditMode] = useState(false);
+  const [isFormDisabled, setIsFormDisabled] = useState(false);
+
 
   useEffect(() => {
     setValues({
@@ -28,13 +28,16 @@ function Profile({ onEdit, onLogout }) {
     );
   }, [handleChange, isInEditMode]);
 
+
   function handleEditMode(inEditMode) {
     setIsInEditMode(inEditMode);
+    if (inEditMode) setIsFormDisabled(false);
   }
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    setIsFormDisabled(true);
     onEdit({
       name: values["name"],
       email: values["email"],
@@ -45,6 +48,7 @@ function Profile({ onEdit, onLogout }) {
   return (
     <>
       <Header loggedIn={true} />
+      {notification && <Notification notification={notification} />}
       <section className="profile">
         <form className="profile__container" onSubmit={handleSubmit}>
           <h2 className="profile__greeting">{`Привет, ${
@@ -61,6 +65,7 @@ function Profile({ onEdit, onLogout }) {
                   value={values["name"]}
                   pattern="[a-zA-Zа-яА-Я\-\s]+"
                   onChange={handleChange}
+                  disabled={isFormDisabled}
                   type="text"
                   minLength="2"
                   maxLength="30"
@@ -80,6 +85,7 @@ function Profile({ onEdit, onLogout }) {
                 name="email"
                 value={values["email"]}
                 onChange={handleChange}
+                disabled={isFormDisabled}
                 minLength="2"
                 maxLength="50"
                 type="email"
@@ -110,7 +116,7 @@ function Profile({ onEdit, onLogout }) {
             )}
             {isInEditMode && (
               <>
-                <button name="edit" type="submit" className={`profile__button ${isEditEnable || 'profile__button-disable'}`}>
+                <button name="edit" type="submit" className={`profile__button ${(isEditEnable && !isFormDisabled) || 'profile__button-disable'}`} disabled={isFormDisabled}>
                   Сохранить
                 </button>
                 <button

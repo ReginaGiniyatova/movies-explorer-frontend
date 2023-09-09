@@ -3,14 +3,28 @@ import "./SearchForm.css";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import searchIcon from "../../images/search_icon.svg"
 import { useForm } from "../../hooks/useForm";
+import {
+    SEARCH_FORM_REGEX,
+    SEARCH_FORM_EMPTY_MESSAGE,
+} from "../../utils/Constants";
 
-function SearchForm({ lastQuery, onSearch, onFilterChecked, isFilterChecked }) {
+function SearchForm({ lastQuery, onSearch, onFilterChecked, isChecked, onError, resetErrors }) {
     const { values, handleChange, setValues, isValid, errors } = useForm({});
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        onSearch(values['query']);
+        const value = values['query'];
+
+        if(value && isValueValid(value)) {
+            resetErrors();
+            onSearch(value);
+        }
+        else onError(SEARCH_FORM_EMPTY_MESSAGE);
+    };
+
+    function isValueValid(value) {
+        return value.trim().match(SEARCH_FORM_REGEX)
     }
 
     useEffect(() => {
@@ -31,17 +45,15 @@ function SearchForm({ lastQuery, onSearch, onFilterChecked, isFilterChecked }) {
                     className="search-form__input"
                     type="text"
                     value={values['query'] || ''}
-                    minlenght="2"
                     onChange={handleChange}
-                    maxlenght="50"
-                    required
                     placeholder="Фильм"
+                    novalidate
                     />
                     <button className="search-form__btn">Найти</button>
                 </form>
             </div>
             <div className="search-form__divider"></div>
-            <FilterCheckbox onChecked={onFilterChecked} isFilterChecked={isFilterChecked } />
+            <FilterCheckbox onChecked={onFilterChecked} isFilterChecked={isChecked } />
         </section>
     )
 }

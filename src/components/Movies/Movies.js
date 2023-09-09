@@ -4,8 +4,14 @@ import Header from "../Header/Header";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import SearchForm from "../SearchForm/SearchForm";
 import "./Movies.css";
+import { apiMovies } from "../../utils/MoviesApi";
+import {
+  REQUEST_FAILED_MESSAGE,
+  SHORT_FILM_DURATION
+} from "../../utils/Constants";
 
-function Movies({ movies, onLike, onDislike, likedMovies, loggedIn, errorMessage }) {
+
+function Movies({ onLike, onDislike, likedMovies, loggedIn, errorMessage }) {
   const [searchQuery, setSearchQuery] = useState(
     localStorage.getItem("query") || ""
   );
@@ -16,37 +22,63 @@ function Movies({ movies, onLike, onDislike, likedMovies, loggedIn, errorMessage
     JSON.parse(localStorage.getItem("smovies")) || []
   );
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(errorMessage || "");
+  const [rawMovies, setRawMovies] = useState(JSON.parse(localStorage.getItem("rawMovies")) || []);
 
   function handleSearchQuery(query) {
     if (query === searchQuery) return;
-    setIsLoading(true);
     setSearchQuery(query);
     localStorage.setItem("query", query);
   }
 
   useEffect(() => {
-    if (searchQuery.length > 0) {
-      setSearchedMovies(
-        movies.filter((movie) =>
-          !isShort
-            ? movie.nameRU.toLowerCase().includes(searchQuery.toLowerCase()) ||
-              movie.nameEN.toLowerCase().includes(searchQuery.toLowerCase())
-            : (movie.nameRU.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                movie.nameEN
-                  .toLowerCase()
-                  .includes(searchQuery.toLowerCase())) &&
-              movie.duration <= 40
-        )
-      );
-      localStorage.setItem("smovies", JSON.stringify(searchedMovies));
+    const hasRawMovies = localStorage.getItem("rawMovies");
+
+    if (!hasRawMovies && searchQuery.length > 0) {
+      setIsLoading(true);
+
+      apiMovies.getMovies()
+        .then(movies => {
+          setIsLoading(false);
+          setRawMovies(movies);
+          localStorage.setItem("rawMovies", JSON.stringify(movies));
+          filterMovies(movies);
+        })
+        .catch(error => {
+          setError(REQUEST_FAILED_MESSAGE);
+          console.error(error);
+
+          setIsLoading(false);
+        })
+    } else {
+      filterMovies(rawMovies);
+      setIsLoading(false);
     }
-    setIsLoading(false);
-  }, [searchQuery, movies, isShort]);
+}, [searchQuery, isShort]);
+
+  function filterMovies(movies) {
+    setSearchedMovies(
+      movies.filter((movie) =>
+        !isShort
+          ? movie.nameRU.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            movie.nameEN.toLowerCase().includes(searchQuery.toLowerCase())
+          : (movie.nameRU.toLowerCase().includes(searchQuery.toLowerCase()) ||
+              movie.nameEN
+                .toLowerCase()
+                .includes(searchQuery.toLowerCase())) &&
+            movie.duration <= SHORT_FILM_DURATION
+      )
+    );
+    localStorage.setItem("smovies", JSON.stringify(searchedMovies));
+  }
 
   function handleFilterChecked(checked) {
-    setIsLoading(true);
     localStorage.setItem("isShort", checked);
     setIsShort(checked);
+  }
+
+  function resetErrors() {
+    setError("");
   }
 
   return (
@@ -57,14 +89,15 @@ function Movies({ movies, onLike, onDislike, likedMovies, loggedIn, errorMessage
         onSearch={handleSearchQuery}
         onFilterChecked={handleFilterChecked}
         isChecked={isShort}
-
+        onError={setError}
+        resetErrors={resetErrors}
       />
       <section className="movies">
         <div className="movies__divider" />
-        {errorMessage && (
-          <p className="movies__error-message">{errorMessage}</p>
+        {error && (
+          <p className="movies__error-message">{error}</p>
         )}
-       {!errorMessage && <MoviesCardList
+       {!error && <MoviesCardList
           isSavedMovies={false}
           movies={searchedMovies}
           isLoading={isLoading}
