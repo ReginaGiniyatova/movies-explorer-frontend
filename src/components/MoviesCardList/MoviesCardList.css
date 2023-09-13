@@ -14,7 +14,7 @@
   column-gap: 20px;
   row-gap: 37px;
   grid-auto-flow: dense;
-  grid-template-columns: repeat(auto-fit, minmax(270px, min-content));
+  grid-template-columns: repeat(4, 1fr);
   justify-content: center;
 }
 
@@ -52,7 +52,7 @@
   visibility: visible;
 }
 
-@media screen and (min-width: 535px) and (max-width: 768px) {
+@media screen and (min-width: 481px) and (max-width: 768px) {
   .movies-list {
     padding: 80px 0 0 0;
   }
@@ -62,12 +62,12 @@
     column-gap: 30px;
     row-gap: 29px;
     grid-auto-flow: dense;
-    grid-template-columns: repeat(auto-fit, minmax(339px, min-content));
+    grid-template-columns: repeat(2, 1fr);
     justify-content: center;
   }
 }
 
-@media screen and (max-width: 534px) {
+@media screen and (max-width: 480px) {
   .movies-list {
     padding: 48px 0 0 0;
   }

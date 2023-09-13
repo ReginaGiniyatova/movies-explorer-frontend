@@ -2,6 +2,15 @@
     padding: 0 70px 158px 70px;
 }
 
+.movies__error-message {
+    color: #FF4062;
+    margin: 20px auto;
+    padding: 0;
+    text-align: center;
+    font-size: 16px;
+    max-width: 500px; 
+}
+
 .movies__divider {
     padding: 0;
     margin: auto;

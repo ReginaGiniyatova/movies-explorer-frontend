@@ -49,6 +49,7 @@
     line-height: normal;
     margin-top: 184px;
     padding: 0;
+    cursor: pointer;
 }
 
 .error-page__back:hover {

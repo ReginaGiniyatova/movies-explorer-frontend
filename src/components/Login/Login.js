@@ -1,7 +1,31 @@
+import { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import './Login.css';
+import { useForm } from '../../hooks/useForm';
 
-function Login() {
+function Login({ onSubmit, errorMessage, resetErrors }) {
+
+    const [isFormDisabled, setIsFormDisabled] = useState(false);
+    const { values, handleChange, setValues, isValid, errors } = useForm({});
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        setIsFormDisabled(true);
+
+        onSubmit({
+            email: values['email'],
+            password: values['password'],
+        });
+    }
+
+    useEffect(() => {
+        return resetErrors;
+    }, [])
+
+    useEffect(() => {
+        setIsFormDisabled(false);
+      }, [errorMessage]);
+
+
     return (
         <section className='login'>
             <div className='login__container'>
@@ -9,36 +33,48 @@ function Login() {
 
                 <h2 className='login__greeting'>Рады видеть!</h2>
 
-                <form className='login-form'>
+                <form className='login-form' onSubmit={handleSubmit}>
                     <div className='login-form__input-container'>
                         <p className='login-form__label'>E-mail</p>
                         <input
-                            id="login-input"
+                            id="login-input__email"
+                            autoComplete='email'
                             className='login-form__input'
-                            type='text'
+                            type="email"
+                            pattern="^([A-Za-z0-9_\-\.])+@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$"
                             name='email'
+                            value={values['email'] || ''}
+                            onChange={handleChange}
                             minLength="2"
                             maxLength="30"
+                            disabled={isFormDisabled}
                             required
                             />
-                            <p className='login-form__input-error'></p>
+                            <p className='login-form__input-error'>{errors['email']}</p>
                     </div>
 
                     <div className='login-form__input-container'>
                         <p className='login-form__label'>Пароль</p>
                         <input
-                            id="login-input"
+                            id="login-input__password"
+                            autoComplete='current-password'
                             className='login-form__input'
                             type='password'
                             name='password'
+                            value={values['password'] || ''}
+                            onChange={handleChange}
+                            disabled={isFormDisabled}
                             minLength="2"
                             maxLength="30"
                             required
                             />
-                        <p className='login-form__input-error'></p>
+                        <p className='login-form__input-error'>{errors['password']}</p>
                     </div>
 
-                    <button className='login-form__submit-btn' type='submit'>Войти</button>
+                    <div className="login-form__submit-container">
+                        <p className="login-form__error">{errorMessage || ""}</p>
+                        <button className={`login-form__submit-btn ${(isValid && !isFormDisabled) || 'login-form__submit-btn_disabled' }`} type='submit' disabled={isFormDisabled}>Войти</button>
+                    </div>
                 </form>
 
                 <nav className='login__links'>
